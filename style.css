@@ -23,13 +23,15 @@ body {
 }
 .message-container {
   background: rgba(255, 255, 255, 0.1);
+  width: 80%;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-  max-width: 500px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  max-width: 90%;
+  margin-top: 20px;
 }
 .highlight {
-  color: #303030;
+  color: #fdf900;
   font-weight: bold;
 }
 
