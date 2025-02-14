@@ -1,29 +1,31 @@
 window.requestAnimationFrame =
     window.__requestAnimationFrame ||
-        window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.oRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        (function () {
-            return function (callback, element) {
-                var lastTime = element.__lastTime;
-                if (lastTime === undefined) {
-                    lastTime = 0;
-                }
-                var currTime = Date.now();
-                var timeToCall = Math.max(1, 33 - (currTime - lastTime));
-                window.setTimeout(callback, timeToCall);
-                element.__lastTime = currTime + timeToCall;
-            };
-        })();
+    window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    window.oRequestAnimationFrame ||
+    window.msRequestAnimationFrame ||
+    (function () {
+        return function (callback, element) {
+            var lastTime = element.__lastTime;
+            if (lastTime === undefined) {
+                lastTime = 0;
+            }
+            var currTime = Date.now();
+            var timeToCall = Math.max(1, 33 - (currTime - lastTime));
+            window.setTimeout(callback, timeToCall);
+            element.__lastTime = currTime + timeToCall;
+        };
+    })();
+
 window.isDevice = (/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(((navigator.userAgent || navigator.vendor || window.opera)).toLowerCase()));
+
 var loaded = false;
 var init = function () {
     if (loaded) return;
     loaded = true;
     var mobile = window.isDevice;
-    var koef = mobile ? 1 : 1 ;
+    var koef = mobile ? 1 : 1;
     var canvas = document.getElementById('heart');
     var ctx = canvas.getContext('2d');
     var width = canvas.width = koef * innerWidth;
@@ -33,10 +35,9 @@ var init = function () {
     ctx.fillRect(0, 0, width, height);
 
     var heartPosition = function (rad) {
-      console.log(rad)
-        //return [Math.sin(rad), Math.cos(rad)];
         return [Math.pow(Math.sin(rad), 3), -(15 * Math.cos(rad) - 5 * Math.cos(2 * rad) - 2 * Math.cos(3 * rad) - Math.cos(4 * rad))];
     };
+
     var scaleAndTranslate = function (pos, sx, sy, dx, dy) {
         return [dx + pos[0] * sx, dy + pos[1] * sy];
     };
@@ -44,16 +45,15 @@ var init = function () {
     window.addEventListener('resize', function () {
         width = canvas.width = koef * innerWidth;
         height = canvas.height = koef * innerHeight;
-       ctx.fillStyle = "rgba(0,0,0,1)";
+        ctx.fillStyle = "rgba(0,0,0,1)";
         ctx.fillRect(0, 0, width, height);
     });
 
     var traceCount = mobile ? 20 : 60;
-    var size1 = mobile  ? 100:210;
-    var size2= mobile ?6 : 13;
-  
-    var size11 = mobile  ? 80:150;
-    var size12= mobile ?3 : 9;
+    var size1 = mobile ? 100 : 210;
+    var size2 = mobile ? 6 : 13;
+    var size11 = mobile ? 80 : 150;
+    var size12 = mobile ? 3 : 9;
     var pointsOrigin = [];
     var i;
     var dr = mobile ? 0.3 : 0.1;
@@ -83,10 +83,10 @@ var init = function () {
             q: ~~(rand() * heartPointsCount),
             D: 2 * (i % 2) - 1,
             force: 0.2 * rand() + 0.7,
-            f: "hsla(0," + ~~(40 * rand() + 60) + "%," + ~~(60 * rand() + 20) + "%,.3)",
+            f: "hsla(0, 0%, " + ~~(rand() * 60 + 20) + "%, .3)",
             trace: []
         };
-        for (var k = 0; k < traceCount; k++) e[i].trace[k] = {x: x, y: y};
+        for (var k = 0; k < traceCount; k++) e[i].trace[k] = { x: x, y: y };
     }
 
     var config = {
@@ -97,9 +97,9 @@ var init = function () {
     var time = 0;
     var loop = function () {
         var n = -Math.cos(time);
-        pulse((1 + n) * .5, (1 + n) * .5);
-        time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? .2 : 1) * config.timeDelta;
-        ctx.fillStyle = "rgba(0,0,0,.1)";
+        pulse((1 + n) * 0.5, (1 + n) * 0.5);
+        time += ((Math.sin(time)) < 0 ? 9 : (n > 0.8) ? 0.2 : 1) * config.timeDelta;
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         ctx.fillRect(0, 0, width, height);
         for (i = e.length; i--;) {
             var u = e[i];
@@ -110,8 +110,7 @@ var init = function () {
             if (10 > length) {
                 if (0.95 < rand()) {
                     u.q = ~~(rand() * heartPointsCount);
-                }
-                else {
+                } else {
                     if (0.99 < rand()) {
                         u.D *= -1;
                     }
@@ -139,14 +138,9 @@ var init = function () {
                 ctx.fillRect(u.trace[k].x, u.trace[k].y, 1, 1);
             }
         }
-     //   ctx.fillStyle = "rgba(255,255,255,1)";
-      //  for (i = u.trace.length; i--;) ctx.fillRect(targetPoints[i][0], targetPoints[i][1], 2, 2);
-
         window.requestAnimationFrame(loop, canvas);
     };
     loop();
 };
 
-var s = document.readyState;
-if (s === 'complete' || s === 'loaded' || s === 'interactive') init();
-else document.addEventListener('DOMContentLoaded', init, false);
+document.addEventListener('DOMContentLoaded', init, false);
