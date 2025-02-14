@@ -4,22 +4,14 @@
     padding: 0px;
 }
 body {
-  height: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-body {
   background-color: black;
   color: white;
-  font-family: Arial, sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 150vh;
   text-align: center;
-  margin: 0;
+  flex-direction: column;
 }
 .message-container {
   background: rgba(255, 255, 255, 0.1);
@@ -28,7 +20,7 @@ body {
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
   max-width: 90%;
-  margin-top: 20px;
+  margin-top: 500px;
 }
 .highlight {
   color: #fdf900;
@@ -54,7 +46,6 @@ body {
     100%{opacity:1}
   }
   .smoke span {
-  
     position: relative;
     color: #fff;
     font-family: sans-serif;
@@ -110,5 +101,17 @@ body {
       filter: blur(0);
     }
   }
-  
-  
+  canvas {
+    width: 100%;
+    max-width: 400px;
+}
+@media screen and (min-width: 600px) {
+  .smoke {
+      font-size: 1.5em;
+  }
+  .message-container {
+      font-size: 1em;
+      max-width: 100%;
+      padding: 15px;
+  }
+}
